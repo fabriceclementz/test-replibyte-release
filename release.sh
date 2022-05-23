@@ -41,7 +41,7 @@ echo -n "Updating TOML files:"
 for toml in ${TOML_FILES}
 do
     echo -n " ${toml}"
-    sed -i -e "s/^version = \"${old}\"$/version = \"${new}\"/" "${toml}"
+    sed -i "s/^version = \"${old}\"$/version = \"${new}\"/" "${toml}"
 done
 echo "."
 
