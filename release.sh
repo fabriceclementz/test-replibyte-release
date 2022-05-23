@@ -3,9 +3,7 @@
 set -e
 
 TOML_FILES="\
-replibyte/Cargo.toml \
-subset/Cargo.toml \
-dump-parser/Cargo.toml
+README.md
 "
 
 old=$1
