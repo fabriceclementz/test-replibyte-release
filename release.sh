@@ -89,5 +89,9 @@ elif
   echo "  >> https://github.com/fabriceclementz/test-replibyte-release/pull/new/release-v${new} <<"
   echo
   echo "If that's not the case, you're invited to run again the release script and wait for the PR is merged before continuing to run this script"
+  echo
+  echo "Rollback changes"
+  git branch -d "release-v${new}"
+  git push origin --delete "release-v${new}"
 fi
 
