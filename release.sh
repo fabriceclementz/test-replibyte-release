@@ -70,6 +70,7 @@ echo
 echo "  >> https://github.com/fabriceclementz/test-replibyte-release/pull/new/release-v${new} <<"
 echo
 echo "Once you continue we'll generate and push the release tag with the latest 'main'"
+echo "CAUTION: Review and merge the PR before continuing to create the release"
 read -r answer
 
 echo "Generating release tag v${new}"
