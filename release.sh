@@ -11,15 +11,15 @@ new=$2
 
 if [ -z "${old}" ] || [ -z "${new}" ]
 then
-  echo "please run: $0 <old version> <new version>"
-  exit 1
+    echo "please run: $0 <old version> <new version>"
+    exit 1
 fi
 
 if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" -ne 0 ]
 then
-  git status
-  echo "There are unsaved changes in the repository, press CTRL-C to abort now or return to continue."
-  read -r answer
+    git status
+    echo "There are unsaved changes in the repository, press CTRL-C to abort now or return to continue."
+    read -r answer
 fi
 
 echo -n "Release process from starting from '${old}' -> '${new}', do you want to continue? [y/N] "
@@ -27,12 +27,12 @@ read -r answer
 
 
 case "${answer}" in
-  Y*|y*)
-    ;;
-  *)
-    echo "Aborting"
-    exit 0
-    ;;
+    Y*|y*)
+        ;;
+    *)
+        echo "Aborting"
+        exit 0
+        ;;
 esac;
 
 echo "==> ${answer}"
@@ -40,8 +40,8 @@ echo "==> ${answer}"
 echo -n "Updating TOML files:"
 for toml in ${TOML_FILES}
 do
-  echo -n " ${toml}"
-  sed -e "s/^version = \"${old}\"$/version = \"${new}\"/"
+    echo -n " ${toml}"
+    sed -e "s/^version = \"${old}\"$/version = \"${new}\"/" -i.release "${toml}"
 done
 echo "."
 
@@ -54,15 +54,15 @@ echo "Do you want to Continue or Rollback? [c/R]"
 read -r answer
 
 case "${answer}" in
-  C*|c*)
-    git checkout -b "release-v${new}"
-    git commit -sa -m "Release v${new}"
-    git push --set-upstream origin "release-v${new}"
-    ;;
-  *)
-    git checkout .
-    exit
-    ;;
+    C*|c*)
+        git checkout -b "release-v${new}"
+        git commit -sa -m "Release v${new}"
+        git push --set-upstream origin "release-v${new}"
+        ;;
+    *)
+        git checkout .
+        exit
+        ;;
 esac;
 
 echo "Please open the following pull request we'll wait here continue when it is merged."
