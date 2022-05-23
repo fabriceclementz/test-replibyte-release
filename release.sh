@@ -83,7 +83,7 @@ if grep -q  "version = \"${new}\"" ${TOML_FILES[0]}; then
   git push --tags
 
   echo "Congrats release v${new} is done!"
-elif
+else
   echo "It seems the version is not updated, are you sure you have merged the PR at:"
   echo
   echo "  >> https://github.com/fabriceclementz/test-replibyte-release/pull/new/release-v${new} <<"
