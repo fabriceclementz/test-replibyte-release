@@ -3,7 +3,9 @@
 set -e
 
 TOML_FILES="\
-README.md
+replibyte/Cargo.toml \
+subset/Cargo.toml \
+dump-parser/Cargo.toml
 "
 
 old=$1
@@ -22,7 +24,7 @@ then
     read -r answer
 fi
 
-echo -n "Release process from starting from '${old}' -> '${new}', do you want to continue? [y/N] "
+echo -n "Release process starting from '${old}' -> '${new}', do you want to continue? [y/N] "
 read -r answer
 
 
@@ -70,7 +72,8 @@ echo
 echo "  >> https://github.com/fabriceclementz/test-replibyte-release/pull/new/release-v${new} <<"
 echo
 echo "Once you continue we'll generate and push the release tag with the latest 'main'"
-echo "CAUTION: Review and merge the PR before continuing to create the release"
+echo
+echo "WARNING: Review and wait until the pull request is merged before continuing to create the release"
 read -r answer
 
 echo "Generating release tag v${new}"
@@ -78,22 +81,18 @@ echo "Generating release tag v${new}"
 git checkout main
 git pull
 
-# The version is correctly updated (aka the PR is merged)
+# The version is correctly updated in the replibyte crate cargo.toml (aka the PR is merged)
 if grep -q  "version = \"${new}\"" ${TOML_FILES[0]}; then
-  git tag -a -m"Release v${new}" "v${new}"
-  git push --tags
+    git tag -a -m"Release v${new}" "v${new}"
+    git push --tags
 
-  echo "Congrats release v${new} is done!"
+    echo "Congrats release v${new} is done!"
 else
-  echo
-  echo "It seems the version is not updated, are you sure you have merged the PR at:"
-  echo
-  echo "  >> https://github.com/fabriceclementz/test-replibyte-release/pull/new/release-v${new} <<"
-  echo
-  echo "If that's not the case, you're invited to run again the release script and wait for the PR is merged before continuing to run this script"
-  echo
-  echo "Rollback changes"
-  git branch -d "release-v${new}"
-  git push origin --delete "release-v${new}"
+    echo
+    echo "It seems the version is not updated, are you sure you have merged the pull request as stated before?"
+    echo "If that's not the case, you're invited to run again the release script and wait for the PR is merged before continuing to run this script"
+    echo
+    echo "Rollback changes"
+    git branch -d "release-v${new}"
+    git push origin --delete "release-v${new}"
 fi
-
